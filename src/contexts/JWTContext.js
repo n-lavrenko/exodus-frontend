@@ -110,14 +110,14 @@ function AuthProvider({ children }) {
   
   return (
     <AuthContext.Provider
-      value={{
+      value={ {
         ...state,
         method: 'jwt',
         signIn,
         signOut
-      }}
+      } }
     >
-      {children}
+      { children }
     </AuthContext.Provider>
   )
 }

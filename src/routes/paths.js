@@ -1,5 +1,5 @@
 function path(root, subLink) {
-  return `/${root}${subLink}`
+  return `/${ root }${ subLink }`
 }
 
 

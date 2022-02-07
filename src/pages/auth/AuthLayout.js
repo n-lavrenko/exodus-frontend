@@ -9,7 +9,7 @@ import { Outlet } from 'react-router-dom'
 
 function Copyright(props) {
   return (
-    <Typography variant='body2' color='text.secondary' align='center' {...props}>
+    <Typography variant='body2' color='text.secondary' align='center' { ...props }>
       <Link color='inherit' href='https://www.linkedin.com/in/nlavr/'>
         Nikita's Lavrenko
       </Link>&nbsp;
@@ -25,11 +25,11 @@ const theme = createTheme()
 
 export default function AuthLayout() {
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider theme={ theme }>
       <Container component='main' maxWidth='xs'>
         <CssBaseline />
         <Outlet />
-        <Copyright sx={{ mt: 8, mb: 4 }} />
+        <Copyright sx={ { mt: 8, mb: 4 } } />
       </Container>
     </ThemeProvider>
   )

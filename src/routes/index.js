@@ -21,6 +21,6 @@ export function AppRouter() {
         { path: PATH_AUTH.signin, element: <SignIn /> }
       ]
     },
-    { path: '*', element: <Navigate to={PATH_AUTH.signin} replace /> }
+    { path: '*', element: <Navigate to={ PATH_AUTH.signin } replace /> }
   ])
 }

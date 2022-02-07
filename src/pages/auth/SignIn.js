@@ -9,6 +9,8 @@ import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
+import { Link as RouterLink } from 'react-router-dom'
+import { PATH_AUTH } from '../../routes/paths'
 
 
 export default function SignIn() {
@@ -24,20 +26,20 @@ export default function SignIn() {
   
   return (
     <Box
-      sx={{
+      sx={ {
         marginTop: 8,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center'
-      }}
+      } }
     >
-      <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+      <Avatar sx={ { m: 1, bgcolor: 'secondary.main' } }>
         <LockOutlinedIcon />
       </Avatar>
       <Typography component='h1' variant='h5'>
         Sign in
       </Typography>
-      <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component='form' onSubmit={ handleSubmit } noValidate sx={ { mt: 1 } }>
         <TextField
           margin='normal'
           required
@@ -59,14 +61,14 @@ export default function SignIn() {
           autoComplete='current-password'
         />
         <FormControlLabel
-          control={<Checkbox value='remember' color='primary' />}
+          control={ <Checkbox value='remember' color='primary' /> }
           label='Remember me'
         />
         <Button
           type='submit'
           fullWidth
           variant='contained'
-          sx={{ mt: 3, mb: 2 }}
+          sx={ { mt: 3, mb: 2 } }
         >
           Sign In
         </Button>
@@ -77,8 +79,8 @@ export default function SignIn() {
             </Link>
           </Grid>
           <Grid item>
-            <Link href='#' variant='body2'>
-              {'Don\'t have an account? Sign Up'}
+            <Link href variant='body2' to={ PATH_AUTH.signup } component={ RouterLink }>
+              { 'Don\'t have an account? Sign Up' }
             </Link>
           </Grid>
         </Grid>

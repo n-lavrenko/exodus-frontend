@@ -13,5 +13,5 @@ export default function GuestGuard({ children }) {
     return navigate(PATH_DASHBOARD)
   }
   
-  return <>{children}</>
+  return <>{ children }</>
 }

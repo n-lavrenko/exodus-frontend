@@ -24,5 +24,5 @@ export default function AuthGuard({ children }) {
     navigate(requestedLocation)
   }
   
-  return <>{children}</>
+  return <>{ children }</>
 }

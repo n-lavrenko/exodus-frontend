@@ -17,7 +17,7 @@ const setSession = (accessToken, user) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken)
     localStorage.setItem('user', user)
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
+    axios.defaults.headers.common.Authorization = `Bearer ${ accessToken }`
   } else {
     unsetSession()
   }
