@@ -2,26 +2,22 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import Avatar from '@mui/material/Avatar'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import Checkbox from '@mui/material/Checkbox'
-import FormControlLabel from '@mui/material/FormControlLabel'
 import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 import { PATH_AUTH } from '../../routes/paths'
 
 
 export default function SignIn() {
-  const handleSubmit = (event) => {
+  const {signIn} = useAuth()
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
-    // eslint-disable-next-line no-console
-    console.log({
-      email: data.get('email'),
-      password: data.get('password')
-    })
+    await signIn(data.get('email'), data.get('password'));
   }
   
   return (
@@ -59,10 +55,6 @@ export default function SignIn() {
           type='password'
           id='password'
           autoComplete='current-password'
-        />
-        <FormControlLabel
-          control={ <Checkbox value='remember' color='primary' /> }
-          label='Remember me'
         />
         <Button
           type='submit'

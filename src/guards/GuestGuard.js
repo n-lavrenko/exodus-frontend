@@ -10,7 +10,7 @@ export default function GuestGuard({ children }) {
   let navigate = useNavigate()
   
   if (isAuthenticated) {
-    return navigate(PATH_DASHBOARD)
+    navigate(PATH_DASHBOARD.linkBankAccount)
   }
   
   return <>{ children }</>

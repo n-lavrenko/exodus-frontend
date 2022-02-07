@@ -6,8 +6,9 @@ const checkAccount = async accessToken => {
     return { success: false }
   }
   try {
-    const account = await axios.get('/api/user/my-account')
-    return { success: true, account }
+    axios.defaults.headers.common.Authorization = `Bearer ${ accessToken }`
+    const response = await axios.get('/api/user/my-account')
+    return { success: true, account: response.data.user }
   } catch (e) {
     return { success: false }
   }
@@ -16,7 +17,7 @@ const checkAccount = async accessToken => {
 const setSession = (accessToken, user) => {
   if (accessToken) {
     localStorage.setItem('accessToken', accessToken)
-    localStorage.setItem('user', user)
+    localStorage.setItem('user', JSON.stringify(user))
     axios.defaults.headers.common.Authorization = `Bearer ${ accessToken }`
   } else {
     unsetSession()

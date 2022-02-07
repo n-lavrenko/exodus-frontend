@@ -1,12 +1,12 @@
-import { createContext, useEffect, useReducer } from 'react'
+import {createContext, useEffect, useReducer} from 'react'
 // utils
 import axios from '../utils/axios'
-import { checkAccount, setSession, unsetSession } from '../utils/jwt'
+import {checkAccount, setSession, unsetSession} from '../utils/jwt'
 
 
 const Types = {
   Initial: 'INITIALIZE',
-  SIgnIn: 'SIGNIN',
+  SignIn: 'SIGNIN',
   Logout: 'LOGOUT'
 }
 
@@ -24,7 +24,7 @@ const JWTReducer = (state, action) => {
         isInitialized: true,
         user: action.payload.user
       }
-    case Types.SIgnIn:
+    case Types.SignIn:
       return {
         ...state,
         isAuthenticated: true,
@@ -44,14 +44,14 @@ const JWTReducer = (state, action) => {
 
 const AuthContext = createContext(null)
 
-function AuthProvider({ children }) {
+function AuthProvider({children}) {
   const [state, dispatch] = useReducer(JWTReducer, initialState)
   
   useEffect(() => {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem('accessToken')
-        const { success, account } = await checkAccount(accessToken)
+        const {success, account} = await checkAccount(accessToken)
         if (success) {
           setSession(accessToken, account)
           
@@ -92,11 +92,24 @@ function AuthProvider({ children }) {
       email,
       password
     })
-    const { accessToken, user } = response.data
+    const {accessToken, user} = response.data
     
     setSession(accessToken, user)
     dispatch({
-      type: Types.SIgnIn,
+      type: Types.SignIn,
+      payload: {
+        user
+      }
+    })
+  }
+  
+  const signUp = async (data) => {
+    const response = await axios.post('/api/user/signup', data)
+    const {accessToken, user} = response.data
+    
+    setSession(accessToken, user)
+    dispatch({
+      type: Types.SignIn,
       payload: {
         user
       }
@@ -104,8 +117,8 @@ function AuthProvider({ children }) {
   }
   
   const signOut = async () => {
-    setSession(null)
-    dispatch({ type: Types.Logout })
+    unsetSession()
+    dispatch({type: Types.Logout})
   }
   
   return (
@@ -114,6 +127,7 @@ function AuthProvider({ children }) {
         ...state,
         method: 'jwt',
         signIn,
+        signUp,
         signOut
       } }
     >
@@ -122,4 +136,4 @@ function AuthProvider({ children }) {
   )
 }
 
-export { AuthContext, AuthProvider }
+export {AuthContext, AuthProvider}

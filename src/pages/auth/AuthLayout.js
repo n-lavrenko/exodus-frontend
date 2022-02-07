@@ -1,25 +1,10 @@
 import Container from '@mui/material/Container'
 import CssBaseline from '@mui/material/CssBaseline'
-import Link from '@mui/material/Link'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { Outlet } from 'react-router-dom'
+import {Copyright} from '../../components/Copyright'
 
-
-function Copyright(props) {
-  return (
-    <Typography variant='body2' color='text.secondary' align='center' { ...props }>
-      <Link color='inherit' href='https://www.linkedin.com/in/nlavr/'>
-        Nikita's Lavrenko
-      </Link>&nbsp;
-      Code Challenge for&nbsp;
-      <Link color='inherit' href='https://www.exodus.com/'>
-        EXODUS
-      </Link>&nbsp;
-    </Typography>
-  )
-}
 
 const theme = createTheme()
 

@@ -10,13 +10,22 @@ import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
+import useAuth from '../../hooks/useAuth'
 import { PATH_AUTH } from '../../routes/paths'
 
 
 export default function SignUp() {
-  const handleSubmit = (event) => {
+  const {signUp} = useAuth()
+  const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    const parsedData = {
+      email: data.get('email'),
+      firstName: data.get('firstName'),
+      lastName: data.get('lastName'),
+      password: data.get('password'),
+    }
+    await signUp(parsedData);
   }
   
   return (
@@ -65,6 +74,7 @@ export default function SignUp() {
               id='email'
               label='Email Address'
               name='email'
+              type='email'
               autoComplete='email'
             />
           </Grid>
