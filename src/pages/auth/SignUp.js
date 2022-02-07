@@ -12,6 +12,7 @@ import * as React from 'react'
 import { Link as RouterLink } from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import { PATH_AUTH } from '../../routes/paths'
+import {validateEmail} from '../../utils/regexps'
 
 
 export default function SignUp() {
@@ -25,6 +26,16 @@ export default function SignUp() {
       lastName: data.get('lastName'),
       password: data.get('password'),
     }
+    if (!validateEmail(parsedData.email)) {
+      alert('Email is invalid')
+      return
+    }
+  
+    if (!parsedData.email || !parsedData.password || !parsedData.firstName || !parsedData.lastName) {
+      alert('Fill all fields, please')
+      return
+    }
+    
     await signUp(parsedData);
   }
   
@@ -87,12 +98,6 @@ export default function SignUp() {
               type='password'
               id='password'
               autoComplete='new-password'
-            />
-          </Grid>
-          <Grid item xs={ 12 }>
-            <FormControlLabel
-              control={ <Checkbox value='allowExtraEmails' color='primary' /> }
-              label='I want to receive inspiration, marketing promotions and updates via email.'
             />
           </Grid>
         </Grid>

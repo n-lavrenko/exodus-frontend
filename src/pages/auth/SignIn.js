@@ -17,6 +17,12 @@ export default function SignIn() {
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
+    const email = data.get('email')
+    const password = data.get('password')
+    if (!email || !password) {
+      alert('Fill all fields, please')
+      return
+    }
     await signIn(data.get('email'), data.get('password'));
   }
   

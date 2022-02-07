@@ -88,32 +88,41 @@ function AuthProvider({children}) {
   }, [])
   
   const signIn = async (email, password) => {
-    const response = await axios.post('/api/user/signin', {
-      email,
-      password
-    })
-    const {accessToken, user} = response.data
-    
-    setSession(accessToken, user)
-    dispatch({
-      type: Types.SignIn,
-      payload: {
-        user
-      }
-    })
+    try {
+      const response = await axios.post('/api/user/signin', {
+        email,
+        password
+      })
+      const {accessToken, user} = response.data
+      
+      setSession(accessToken, user)
+      dispatch({
+        type: Types.SignIn,
+        payload: {
+          user
+        }
+      })
+    } catch (e) {
+      alert(e.message)
+    }
   }
   
   const signUp = async (data) => {
-    const response = await axios.post('/api/user/signup', data)
-    const {accessToken, user} = response.data
-    
-    setSession(accessToken, user)
-    dispatch({
-      type: Types.SignIn,
-      payload: {
-        user
-      }
-    })
+    try {
+      const response = await axios.post('/api/user/signup', data)
+      const {accessToken, user} = response.data
+      
+      setSession(accessToken, user)
+      dispatch({
+        type: Types.SignIn,
+        payload: {
+          user
+        }
+      })
+      
+    } catch (e) {
+      alert(e.message)
+    }
   }
   
   const signOut = async () => {

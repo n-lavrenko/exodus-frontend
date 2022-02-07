@@ -11,6 +11,7 @@ export default function GuestGuard({ children }) {
   
   if (isAuthenticated) {
     navigate(PATH_DASHBOARD.linkBankAccount)
+    return <></>
   }
   
   return <>{ children }</>
