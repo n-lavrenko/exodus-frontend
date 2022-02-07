@@ -1,14 +1,12 @@
-import { createContext, useEffect, useReducer } from 'react';
+import { createContext, useEffect, useReducer } from 'react'
 // utils
-import axios from '../utils/axios';
-import { checkToken, setSession, unsetSession } from '../utils/jwt';
-
-// ----------------------------------------------------------------------
+import axios from '../utils/axios'
+import { checkAccount, setSession, unsetSession } from '../utils/jwt'
 
 
 const Types = {
   Initial: 'INITIALIZE',
-  Login: 'LOGIN',
+  SIgnIn: 'SIGNIN',
   Logout: 'LOGOUT'
 }
 
@@ -16,117 +14,112 @@ const initialState = {
   isAuthenticated: false,
   isInitialized: false,
   user: null
-};
+}
 
 const JWTReducer = (state, action) => {
   switch (action.type) {
-    case 'INITIALIZE':
+    case Types.Initial:
       return {
         isAuthenticated: action.payload.isAuthenticated,
         isInitialized: true,
         user: action.payload.user
-      };
-    case 'LOGIN':
+      }
+    case Types.SIgnIn:
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload.user
-      };
-    case 'LOGOUT':
+      }
+    case Types.Logout:
       return {
         ...state,
         isAuthenticated: false,
         user: null
-      };
-
+      }
+    
     default:
-      return state;
+      return state
   }
-};
+}
 
-const AuthContext = createContext(null);
+const AuthContext = createContext(null)
 
 function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(JWTReducer, initialState);
-
+  const [state, dispatch] = useReducer(JWTReducer, initialState)
+  
   useEffect(() => {
     const initialize = async () => {
       try {
-        const accessToken = window.localStorage.getItem('accessToken');
-        const isTokenValid = await checkToken(accessToken)
-        if (isTokenValid) {
-          setSession(accessToken);
-
-          const response = await axios.get('/api/user/my-account');
-          const { user } = response.data;
-          user.fullName = user.fullName || `${user.firstName} ${user.lastName}`;
-
+        const accessToken = window.localStorage.getItem('accessToken')
+        const { success, account } = await checkAccount(accessToken)
+        if (success) {
+          setSession(accessToken, account)
+          
           dispatch({
             type: Types.Initial,
             payload: {
               isAuthenticated: true,
-              user
+              user: account
             }
-          });
+          })
         } else {
-          unsetSession();
+          unsetSession()
           dispatch({
             type: Types.Initial,
             payload: {
               isAuthenticated: false,
               user: null
             }
-          });
+          })
         }
       } catch (err) {
-        console.error(err);
+        console.error(err)
         dispatch({
           type: Types.Initial,
           payload: {
             isAuthenticated: false,
             user: null
           }
-        });
+        })
       }
-    };
-
-    initialize();
-  }, []);
-
-  const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
+    }
+    
+    initialize()
+  }, [])
+  
+  const signIn = async (email, password) => {
+    const response = await axios.post('/api/user/signin', {
       email,
       password
-    });
-    const { accessToken, user } = response.data;
-
-    setSession(accessToken);
+    })
+    const { accessToken, user } = response.data
+    
+    setSession(accessToken, user)
     dispatch({
-      type: Types.Login,
+      type: Types.SIgnIn,
       payload: {
         user
       }
-    });
-  };
-
-  const logout = async () => {
-    setSession(null);
-    dispatch({ type: Types.Logout });
-  };
-
-
+    })
+  }
+  
+  const signOut = async () => {
+    setSession(null)
+    dispatch({ type: Types.Logout })
+  }
+  
   return (
     <AuthContext.Provider
       value={{
         ...state,
         method: 'jwt',
-        login,
-        logout
+        signIn,
+        signOut
       }}
     >
       {children}
     </AuthContext.Provider>
-  );
+  )
 }
 
-export { AuthContext, AuthProvider };
+export { AuthContext, AuthProvider }

@@ -1,14 +1,9 @@
-import './App.css';
-import useAuth from './hooks/useAuth';
-import SignIn from './pages/auth/SignIn';
+import './App.css'
+import { AppRouter } from './routes'
 
 
 function App() {
-  const { isInitialized } = useAuth();
-  
-  return (
-    <SignIn/>
-  );
+  return <AppRouter />
 }
 
-export default App;
+export default App

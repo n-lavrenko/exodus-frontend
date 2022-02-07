@@ -1,31 +1,32 @@
-import axios from './axios';
+import axios from './axios'
 
 
-const checkToken = async accessToken => {
+const checkAccount = async accessToken => {
   if (!accessToken) {
-    return false;
+    return { success: false }
   }
   try {
-    const account = await axios.get('/api/user/my-account');
-    console.log(account)
-    return true
+    const account = await axios.get('/api/user/my-account')
+    return { success: true, account }
   } catch (e) {
-    return false
+    return { success: false }
   }
-};
+}
 
-const setSession = (accessToken) => {
+const setSession = (accessToken, user) => {
   if (accessToken) {
-    localStorage.setItem('accessToken', accessToken);
-    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`;
+    localStorage.setItem('accessToken', accessToken)
+    localStorage.setItem('user', user)
+    axios.defaults.headers.common.Authorization = `Bearer ${accessToken}`
   } else {
-    unsetSession();
+    unsetSession()
   }
-};
+}
 
 const unsetSession = () => {
-  localStorage.removeItem('accessToken');
-  delete axios.defaults.headers.common.Authorization;
-};
+  localStorage.removeItem('accessToken')
+  localStorage.removeItem('user')
+  delete axios.defaults.headers.common.Authorization
+}
 
-export { checkToken, setSession, unsetSession };
+export { checkAccount, setSession, unsetSession }
