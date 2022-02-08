@@ -36,7 +36,7 @@ const AccountReducer = (state, action) => {
   }
 }
 
-const AccountContext = createContext(null)
+const AccountContext = createContext(initialState)
 
 function AccountProvider({children}) {
   const [state, dispatch] = useReducer(AccountReducer, initialState)

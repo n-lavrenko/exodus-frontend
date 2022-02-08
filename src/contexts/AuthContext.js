@@ -42,7 +42,7 @@ const AuthReducer = (state, action) => {
   }
 }
 
-const AuthContext = createContext(null)
+const AuthContext = createContext(initialState)
 
 function AuthProvider({children}) {
   const [state, dispatch] = useReducer(AuthReducer, initialState)
