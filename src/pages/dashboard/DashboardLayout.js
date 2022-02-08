@@ -153,7 +153,7 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240
+                    minHeight: 240
                   } }
                 >
                   <Outlet />
@@ -165,7 +165,7 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    height: 240
+                    minHeight: 240
                   } }
                 >
                   <AccountInfo />

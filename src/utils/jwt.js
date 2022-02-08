@@ -1,3 +1,4 @@
+import {endpoints} from '../services/endpoints'
 import axios from './axios'
 
 
@@ -7,7 +8,7 @@ const checkAccount = async accessToken => {
   }
   try {
     axios.defaults.headers.common.Authorization = `Bearer ${ accessToken }`
-    const response = await axios.get('/api/user/my-account')
+    const response = await axios.get(endpoints.myProfile)
     return { success: true, account: response.data.user }
   } catch (e) {
     return { success: false }

@@ -16,7 +16,7 @@ const initialState = {
   user: null
 }
 
-const JWTReducer = (state, action) => {
+const AuthReducer = (state, action) => {
   switch (action.type) {
     case Types.Initial:
       return {
@@ -45,7 +45,7 @@ const JWTReducer = (state, action) => {
 const AuthContext = createContext(null)
 
 function AuthProvider({children}) {
-  const [state, dispatch] = useReducer(JWTReducer, initialState)
+  const [state, dispatch] = useReducer(AuthReducer, initialState)
   
   useEffect(() => {
     const initialize = async () => {
@@ -103,7 +103,7 @@ function AuthProvider({children}) {
         }
       })
     } catch (e) {
-      alert(e.message)
+      e.message && alert(e.message)
     }
   }
   
@@ -121,7 +121,7 @@ function AuthProvider({children}) {
       })
       
     } catch (e) {
-      alert(e.message)
+      e.message && alert(e.message)
     }
   }
   
@@ -134,7 +134,6 @@ function AuthProvider({children}) {
     <AuthContext.Provider
       value={ {
         ...state,
-        method: 'jwt',
         signIn,
         signUp,
         signOut
