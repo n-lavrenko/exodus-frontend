@@ -7,4 +7,19 @@
 
 .dashboard .copyright {
     width: calc(100% - 240px);
+    left: 240px;
+}
+
+.loading-screen {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    position: absolute;
+    align-items: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    transition: all 1s ease-in-out;
+    background: rgb(181, 181, 181);
 }

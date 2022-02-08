@@ -2,8 +2,8 @@ import { useState } from 'react'
 import {Navigate, useLocation} from 'react-router-dom'
 // hooks
 import useAuth from '../hooks/useAuth'
-// pages
-import Login from '../pages/auth/SignIn'
+// other
+import {PATH_AUTH} from '../routes/paths'
 
 
 export default function AuthGuard({ children }) {
@@ -15,7 +15,7 @@ export default function AuthGuard({ children }) {
     if (pathname !== requestedLocation) {
       setRequestedLocation(pathname)
     }
-    return <Login />
+    return <Navigate to={PATH_AUTH.signin}/>
   }
   
   if (requestedLocation && pathname !== requestedLocation) {
