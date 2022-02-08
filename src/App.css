@@ -1,0 +1,10 @@
+.copyright {
+    position: fixed;
+    bottom: 30px;
+    width: 400px;
+    margin-bottom: 0;
+}
+
+.dashboard .copyright {
+    width: calc(100% - 240px);
+}

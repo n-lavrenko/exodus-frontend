@@ -16,6 +16,7 @@ import Toolbar from '@mui/material/Toolbar'
 import Typography from '@mui/material/Typography'
 import * as React from 'react'
 import {Outlet} from 'react-router-dom'
+import {AccountInfo} from '../../components/AccountInfo'
 import {Copyright} from '../../components/Copyright'
 import useAuth from '../../hooks/useAuth'
 import {mainListItems, secondaryListItems} from './listItems'
@@ -78,7 +79,7 @@ function DashboardContent() {
   
   return (
     <ThemeProvider theme={ mdTheme }>
-      <Box sx={ {display: 'flex'} }>
+      <Box sx={ {display: 'flex'} } className={'dashboard'}>
         <CssBaseline />
         <AppBar position='absolute' open={ open }>
           <Toolbar
@@ -107,7 +108,7 @@ function DashboardContent() {
             >
               Dashboard
             </Typography>
-            <IconButton color='inherit' onClick={ signOut }>
+            <IconButton color='inherit' onClick={ signOut } sx={{fontSize: 15, borderRadius: 1}}>
               Sign Out &nbsp;{ ' ' }
               <LogoutIcon />
             </IconButton>
@@ -129,8 +130,6 @@ function DashboardContent() {
           <Divider />
           <List component='nav'>
             { mainListItems }
-            <Divider sx={ {my: 1} } />
-            { secondaryListItems }
           </List>
         </Drawer>
         <Box
@@ -148,7 +147,7 @@ function DashboardContent() {
           <Toolbar />
           <Container maxWidth='lg' sx={ {mt: 4, mb: 4} }>
             <Grid container spacing={ 3 }>
-              <Grid item xs={ 12 }>
+              <Grid item xs={ 8 }>
                 <Paper
                   sx={ {
                     p: 2,
@@ -160,8 +159,20 @@ function DashboardContent() {
                   <Outlet />
                 </Paper>
               </Grid>
+              <Grid item xs={ 4 }>
+                <Paper
+                  sx={ {
+                    p: 2,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    height: 240
+                  } }
+                >
+                  <AccountInfo />
+                </Paper>
+              </Grid>
             </Grid>
-            <Copyright sx={ {pt: 4} } />
+            <Copyright sx={ {pt: 4 } }  />
           </Container>
         </Box>
       </Box>

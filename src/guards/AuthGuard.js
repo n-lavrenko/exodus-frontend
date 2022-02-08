@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import {Navigate, useLocation} from 'react-router-dom'
 // hooks
 import useAuth from '../hooks/useAuth'
 // pages
@@ -9,7 +9,6 @@ import Login from '../pages/auth/SignIn'
 export default function AuthGuard({ children }) {
   const { isAuthenticated } = useAuth()
   const { pathname } = useLocation()
-  let navigate = useNavigate()
   const [requestedLocation, setRequestedLocation] = useState(null)
   
   if (!isAuthenticated) {
@@ -21,7 +20,7 @@ export default function AuthGuard({ children }) {
   
   if (requestedLocation && pathname !== requestedLocation) {
     setRequestedLocation(null)
-    navigate(requestedLocation)
+    return <Navigate to={requestedLocation}/>
   }
   
   return <>{ children }</>

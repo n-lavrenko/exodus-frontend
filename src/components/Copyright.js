@@ -5,7 +5,7 @@ import * as React from 'react'
 
 export function Copyright(props) {
   return (
-    <Typography variant='body2' color='text.secondary' align='center' { ...props }>
+    <Typography variant='body2' color='text.secondary' align='center' { ...props } className='copyright'>
       <Link color='inherit' href='https://www.linkedin.com/in/nlavr/'>
         Nikita's Lavrenko
       </Link>&nbsp;
