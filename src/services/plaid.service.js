@@ -2,7 +2,7 @@ import axios from '../utils/axios'
 import {endpoints} from './endpoints'
 
 
-export const createLinkToken = async (callback) => {
+const createLinkToken = async (callback) => {
   try {
     const response = await axios.post(endpoints.createLinkToken)
     callback(response.data.link_token)
@@ -11,11 +11,38 @@ export const createLinkToken = async (callback) => {
   }
 }
 
-export const exchangePublicToken = async (publicToken) => {
+const exchangePublicToken = async (publicToken) => {
   try {
     const response = await axios.post(endpoints.exchangePublicToken, {publicToken})
     return response.data
   } catch (e) {
     console.error(e)
   }
+}
+
+const unlinkPlaid = async () => {
+  try {
+    await axios.post(endpoints.unlinkPlaid)
+    return true
+  } catch (e) {
+    console.error(e)
+    return false
+  }
+}
+
+
+const checkIsUserLinked = async () => {
+  try {
+    const response = await axios.get(endpoints.checkIsUserLinked)
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export const paidService = {
+  createLinkToken,
+  exchangePublicToken,
+  unlinkPlaid,
+  checkIsUserLinked
 }

@@ -2,9 +2,14 @@ import axios from 'axios'
 
 
 const isProd = window.location.origin.includes('heroku')
-let axiosInstance = axios.create({
-  baseURL: isProd ? 'https://exodus-backend.herokuapp.com' : 'http://localhost:1080'
-})
+const accessToken = localStorage.getItem('accessToken')
+const baseURL = isProd ? 'https://exodus-backend.herokuapp.com' : 'http://localhost:1080'
+
+const axiosInstance = axios.create({baseURL})
+
+if (accessToken) {
+  axiosInstance.defaults.headers.common.Authorization = `Bearer ${ accessToken }`
+}
 
 axiosInstance.interceptors.response.use(
   (response) => response,

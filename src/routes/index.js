@@ -1,4 +1,5 @@
 import { Navigate, useRoutes } from 'react-router-dom'
+import {AccountProvider} from '../contexts/AccountContext'
 import AuthGuard from '../guards/AuthGuard'
 import GuestGuard from '../guards/GuestGuard'
 import AuthLayout from '../pages/auth/AuthLayout'
@@ -28,7 +29,9 @@ export function AppRouter() {
       path: PATH_DASHBOARD.root,
       element: (
         <AuthGuard>
-          <DashboardLayout />
+          <AccountProvider>
+            <DashboardLayout />
+          </AccountProvider>
         </AuthGuard>
       ),
       children: [

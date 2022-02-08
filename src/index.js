@@ -1,9 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { HelmetProvider } from 'react-helmet-async'
-import { BrowserRouter } from 'react-router-dom'
+import {HelmetProvider} from 'react-helmet-async'
+import {BrowserRouter} from 'react-router-dom'
 import App from './App'
-import { AuthProvider } from './contexts/AuthContext'
+import {AuthProvider} from './contexts/AuthContext'
 import './index.css'
 
 

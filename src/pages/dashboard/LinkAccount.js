@@ -1,8 +1,10 @@
+import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
+import {LoadingButton} from '@mui/lab'
 import * as React from 'react'
 import {useEffect, useState} from 'react'
 import {PlaidLink} from 'react-plaid-link'
-import useAuth from '../../hooks/useAuth'
-import {createLinkToken, exchangePublicToken} from '../../services/plaid.service'
+import useAccount from '../../hooks/useAccount'
+import {paidService} from '../../services/plaid.service'
 
 
 const styles = {
@@ -14,55 +16,66 @@ const styles = {
 }
 
 export function LinkAccount() {
-  const {user} = useAuth()
+  const {unlinkPlaid, linkPlaid, isPlaidLinked, plaidLink} = useAccount()
+  const [isLoading, setLoading] = useState(false)
   const [linkToken, setLinkToken] = useState(null)
-  const [itemIds, setItemIds] = useState([])
-  const isBankAccountLinked = user.isBankAccountLinked
   
   useEffect(() => {
-    createLinkToken((token) => setLinkToken(token))
+    paidService.createLinkToken((token) => setLinkToken(token))
   }, [])
   
+  const unlinkPlaidFn = async () => {
+    setLoading(true)
+    const isSuccess = await paidService.unlinkPlaid()
+    setLoading(false)
+    if (isSuccess) {
+      unlinkPlaid()
+    }
+  }
+  
   const onSuccess = async (publicToken, metadata) => {
-    // send public_token to your server
-    // https://plaid.com/docs/api/tokens/#token-exchange-flow
     console.log(publicToken, metadata)
-    const result = await exchangePublicToken(publicToken)
-    console.log(result)
-    setItemIds(itemIds => [...itemIds, result]);
+    const response = await paidService.exchangePublicToken(publicToken)
+    console.log(response)
+    if (response.success) {
+      delete response.success
+      linkPlaid(response)
+    }
   }
   
-  const onEvent = (eventName, metadata) => {
-    // log onEvent callbacks from Link
-    // https://plaid.com/docs/link/web/#onevent
-    console.log(eventName, metadata)
-  }
+  const plaidToken = isPlaidLinked ? <div>
+    <div>
+      <code>Item: { plaidLink.itemId }</code>
+    </div>
+    <div>
+      <code>AccessToken: { plaidLink.accessToken }</code>
+    </div>
+  </div> : <></>
   
-  const onExit = (error, metadata) => {
-    // log onExit callbacks from Link, handle errors
-    // https://plaid.com/docs/link/web/#onexit
-    console.log(error, metadata)
-  }
-  
-  if (isBankAccountLinked) {
+  if (isPlaidLinked) {
     return <div style={ styles }>
       <h4>Your account is linked to Bank Account</h4>
+      { plaidToken }
+      <LoadingButton
+        variant='outlined'
+        size='large'
+        loading={ isLoading }
+        endIcon={ <ArrowForwardIosIcon /> }
+        loadingPosition='end'
+        onClick={ unlinkPlaidFn }
+      >
+        Unlink Bank Account
+      </LoadingButton>
     </div>
   }
   return (
     <div style={ styles }>
-      { itemIds.length > 0 &&
-        <ul>
-          {itemIds.map(i => <li key={i.itemId}>{i}</li>)}
-        </ul>
-      }
+      { plaidToken }
       { linkToken && <PlaidLink
         className='CustomButton'
         style={ {padding: '20px', fontSize: '16px', cursor: 'pointer'} }
         token={ linkToken }
         onSuccess={ onSuccess }
-        onEvent={ onEvent }
-        onExit={ onExit }
       >
         Link you bank account
       </PlaidLink>

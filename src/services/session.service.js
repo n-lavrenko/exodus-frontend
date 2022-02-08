@@ -1,5 +1,5 @@
-import {endpoints} from '../services/endpoints'
-import axios from './axios'
+import {endpoints} from './endpoints'
+import axios from '../utils/axios'
 
 
 const checkAccount = async accessToken => {

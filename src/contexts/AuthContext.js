@@ -1,10 +1,10 @@
 import {createContext, useEffect, useReducer} from 'react'
 // utils
 import axios from '../utils/axios'
-import {checkAccount, setSession, unsetSession} from '../utils/jwt'
+import {checkAccount, setSession, unsetSession} from '../services/session.service'
 
 
-const Types = {
+const actionTypes = {
   Initial: 'INITIALIZE',
   SignIn: 'SIGNIN',
   Logout: 'LOGOUT'
@@ -18,19 +18,19 @@ const initialState = {
 
 const AuthReducer = (state, action) => {
   switch (action.type) {
-    case Types.Initial:
+    case actionTypes.Initial:
       return {
         isAuthenticated: action.payload.isAuthenticated,
         isInitialized: true,
         user: action.payload.user
       }
-    case Types.SignIn:
+    case actionTypes.SignIn:
       return {
         ...state,
         isAuthenticated: true,
         user: action.payload.user
       }
-    case Types.Logout:
+    case actionTypes.Logout:
       return {
         ...state,
         isAuthenticated: false,
@@ -56,7 +56,7 @@ function AuthProvider({children}) {
           setSession(accessToken, account)
           
           dispatch({
-            type: Types.Initial,
+            type: actionTypes.Initial,
             payload: {
               isAuthenticated: true,
               user: account
@@ -65,7 +65,7 @@ function AuthProvider({children}) {
         } else {
           unsetSession()
           dispatch({
-            type: Types.Initial,
+            type: actionTypes.Initial,
             payload: {
               isAuthenticated: false,
               user: null
@@ -75,7 +75,7 @@ function AuthProvider({children}) {
       } catch (err) {
         console.error(err)
         dispatch({
-          type: Types.Initial,
+          type: actionTypes.Initial,
           payload: {
             isAuthenticated: false,
             user: null
@@ -97,7 +97,7 @@ function AuthProvider({children}) {
       
       setSession(accessToken, user)
       dispatch({
-        type: Types.SignIn,
+        type: actionTypes.SignIn,
         payload: {
           user
         }
@@ -114,7 +114,7 @@ function AuthProvider({children}) {
       
       setSession(accessToken, user)
       dispatch({
-        type: Types.SignIn,
+        type: actionTypes.SignIn,
         payload: {
           user
         }
@@ -127,7 +127,7 @@ function AuthProvider({children}) {
   
   const signOut = async () => {
     unsetSession()
-    dispatch({type: Types.Logout})
+    dispatch({type: actionTypes.Logout})
   }
   
   return (
