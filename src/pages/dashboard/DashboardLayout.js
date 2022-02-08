@@ -19,7 +19,7 @@ import {Outlet} from 'react-router-dom'
 import {AccountInfo} from '../../components/AccountInfo'
 import {Copyright} from '../../components/Copyright'
 import useAuth from '../../hooks/useAuth'
-import {mainListItems, secondaryListItems} from './listItems'
+import {mainListItems} from './listItems'
 
 
 const drawerWidth = 240
