@@ -44,17 +44,17 @@ export function LinkAccount() {
   }
   
   const plaidToken = isPlaidLinked ? <div>
-    <div>
+    <div className={'link-info'}>
       <code>Item: { plaidLink.itemId }</code>
     </div>
-    <div>
+    <div className={'link-info'}>
       <code>AccessToken: { plaidLink.accessToken }</code>
     </div>
   </div> : <></>
   
   if (isPlaidLinked) {
     return <div style={ styles }>
-      <h4>Your account is linked to Bank Account</h4>
+      <h4 style={{marginBottom: 15}}>Your account is linked to Bank Account</h4>
       { plaidToken }
       <LoadingButton
         variant='outlined'

@@ -45,8 +45,7 @@ function AccountProvider({children}) {
     const initialize = async () => {
       try {
         const response = await paidService.checkIsUserLinked()
-        const {isLinked, message, link} = response
-        console.log(message)
+        const {isLinked, link} = response
         if (isLinked) {
           dispatch({
             type: ActionTypes.Initial,

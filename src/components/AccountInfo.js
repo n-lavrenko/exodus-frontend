@@ -8,7 +8,7 @@ export function AccountInfo() {
   return (
     <div>
       <h4>Account info:</h4>
-      Your name: { user.fullName }
+      Hi, { user.fullName }
       <br/>
       Email: { user.email }
       <br/>
