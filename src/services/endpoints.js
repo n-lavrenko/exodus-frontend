@@ -4,6 +4,7 @@ function finalizeEndpoint(entity, path) {
 
 const PLAID = 'plaid'
 const USER = 'user'
+const CRYPTO = 'crypto'
 
 export const endpoints = {
   signin: finalizeEndpoint(USER, 'signin'),
@@ -12,5 +13,6 @@ export const endpoints = {
   createLinkToken: finalizeEndpoint(PLAID, 'create-link-token'),
   exchangePublicToken: finalizeEndpoint(PLAID, 'exchange-public-token'),
   unlinkPlaid: finalizeEndpoint(PLAID, 'unlink-plaid'),
-  checkIsUserLinked: finalizeEndpoint(PLAID, 'is-linked')
+  checkIsUserLinked: finalizeEndpoint(PLAID, 'is-linked'),
+  createWallet: finalizeEndpoint(CRYPTO, 'create-wallet')
 }

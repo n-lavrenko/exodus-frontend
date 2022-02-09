@@ -4,6 +4,7 @@ import * as React from 'react'
 import {useEffect, useState} from 'react'
 import {PlaidLink} from 'react-plaid-link'
 import useAccount from '../../hooks/useAccount'
+import {cryptoService} from '../../services/crypto.service'
 import {paidService} from '../../services/plaid.service'
 
 
@@ -40,6 +41,8 @@ export function LinkAccount() {
     if (response.success) {
       delete response.success
       linkPlaid(response)
+      const result = await cryptoService.createWallet()
+      console.log(result)
     }
   }
   
