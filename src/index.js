@@ -1,3 +1,4 @@
+import {SnackbarProvider} from 'notistack'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {HelmetProvider} from 'react-helmet-async'
@@ -10,11 +11,16 @@ import './index.css'
 ReactDOM.render(
   <React.StrictMode>
     <HelmetProvider>
-      <BrowserRouter>
-        <AuthProvider>
-          <App />
-        </AuthProvider>
-      </BrowserRouter>
+      <SnackbarProvider maxSnack={3} anchorOrigin={{
+        vertical: 'top',
+        horizontal: 'right',
+      }}>
+        <BrowserRouter>
+          <AuthProvider>
+            <App />
+          </AuthProvider>
+        </BrowserRouter>
+      </SnackbarProvider>
     </HelmetProvider>
   </React.StrictMode>,
   document.getElementById('root')

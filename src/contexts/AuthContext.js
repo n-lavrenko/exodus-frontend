@@ -1,7 +1,5 @@
 import {createContext, useEffect, useReducer} from 'react'
-// utils
-import axios from '../utils/axios'
-import {checkAccount, setSession, unsetSession} from '../services/session.service'
+import {authService} from '../services/auth.service'
 
 
 const actionTypes = {
@@ -51,10 +49,9 @@ function AuthProvider({children}) {
     const initialize = async () => {
       try {
         const accessToken = window.localStorage.getItem('accessToken')
-        const {success, account} = await checkAccount(accessToken)
+        const {success, account} = await authService.checkAccount(accessToken)
         if (success) {
-          setSession(accessToken, account)
-          
+          authService.setSession(accessToken, account)
           dispatch({
             type: actionTypes.Initial,
             payload: {
@@ -63,7 +60,7 @@ function AuthProvider({children}) {
             }
           })
         } else {
-          unsetSession()
+          authService.unsetSession()
           dispatch({
             type: actionTypes.Initial,
             payload: {
@@ -88,45 +85,33 @@ function AuthProvider({children}) {
   }, [])
   
   const signIn = async (email, password) => {
-    try {
-      const response = await axios.post('/api/user/signin', {
-        email,
-        password
-      })
-      const {accessToken, user} = response.data
-      
-      setSession(accessToken, user)
+    const {success, message, user} = await authService.signIn(email, password)
+    if (success) {
       dispatch({
         type: actionTypes.SignIn,
         payload: {
           user
         }
       })
-    } catch (e) {
-      e.message && alert(e.message)
     }
+    return {success, message: message || 'Server is Unavailable'}
   }
   
   const signUp = async (data) => {
-    try {
-      const response = await axios.post('/api/user/signup', data)
-      const {accessToken, user} = response.data
-      
-      setSession(accessToken, user)
+    const {success, message, user} = await authService.signUp(data)
+    if (success) {
       dispatch({
         type: actionTypes.SignIn,
         payload: {
           user
         }
       })
-      
-    } catch (e) {
-      e.message && alert(e.message)
     }
+    return {success, message: message || 'Server is Unavailable'}
   }
   
   const signOut = async () => {
-    unsetSession()
+    authService.unsetSession()
     dispatch({type: actionTypes.Logout})
   }
   

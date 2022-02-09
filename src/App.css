@@ -23,3 +23,7 @@
     transition: all 1s ease-in-out;
     background: rgb(181, 181, 181);
 }
+
+.white {
+    color: white;
+}

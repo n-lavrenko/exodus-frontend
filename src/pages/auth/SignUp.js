@@ -6,7 +6,9 @@ import Grid from '@mui/material/Grid'
 import Link from '@mui/material/Link'
 import TextField from '@mui/material/TextField'
 import Typography from '@mui/material/Typography'
+import {Fragment} from 'react'
 import * as React from 'react'
+import {useSnackbar} from 'notistack'
 import {Link as RouterLink} from 'react-router-dom'
 import useAuth from '../../hooks/useAuth'
 import {PATH_AUTH} from '../../routes/paths'
@@ -15,6 +17,8 @@ import {validateEmail} from '../../utils/regexps'
 
 export default function SignUp() {
   const {signUp} = useAuth()
+  const {enqueueSnackbar, closeSnackbar} = useSnackbar()
+  
   const handleSubmit = async (event) => {
     event.preventDefault()
     const data = new FormData(event.currentTarget)
@@ -25,16 +29,31 @@ export default function SignUp() {
       password: data.get('password')
     }
     if (!validateEmail(parsedData.email)) {
-      alert('Email is invalid')
+      enqueueSnackbar('Email is invalid', { variant: 'error' })
       return
     }
     
     if (!parsedData.email || !parsedData.password || !parsedData.firstName || !parsedData.lastName) {
-      alert('Fill all fields, please')
+      enqueueSnackbar('Fill required fields, please', { variant: 'error' })
       return
     }
-    
-    await signUp(parsedData)
+  
+    const {success, message} = await signUp(parsedData)
+    if (success) {
+      enqueueSnackbar('Sign Up: success', {
+        variant: 'success',
+        action: (key) => (
+          <Fragment>
+            <Button onClick={ () => closeSnackbar(key) }>
+              <span className={'white'}>CLOSE</span>
+            </Button>
+          </Fragment>
+        )
+      })
+    }
+    else {
+      enqueueSnackbar(message, { variant: 'error' })
+    }
   }
   
   return (
