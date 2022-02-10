@@ -31,6 +31,23 @@
     margin-bottom: 20px;
 }
 
+.link-account-status {
+    display: inline-block;
+    position: relative;
+}
+
+.link-account-status svg {
+    top: 6px;
+    position: relative;
+}
+
+.link-account-status.yes svg {
+    color: green;
+}
+.link-account-status.no svg {
+    color: orange;
+}
+
 .white {
     color: white;
 }
