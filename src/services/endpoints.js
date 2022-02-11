@@ -19,4 +19,6 @@ export const endpoints = {
   createWallet: finalizeEndpoint(CRYPTO, 'create-wallet'),
   walletInfo: finalizeEndpoint(CRYPTO, 'wallet-info'),
   adminBalance: finalizeEndpoint(CRYPTO, 'admin-balance'),
+  depositBTCWallet: finalizeEndpoint(CRYPTO, 'deposit-btc-wallet'),
+  depositAdminWallet: finalizeEndpoint(CRYPTO, 'deposit-admin-wallet'),
 }

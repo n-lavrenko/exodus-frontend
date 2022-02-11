@@ -1,5 +1,5 @@
 import {CircularProgress} from '@mui/material'
-import Divider from '@mui/material/Divider'
+import Button from '@mui/material/Button'
 import Link from '@mui/material/Link'
 import * as React from 'react'
 import {useEffect, useState} from 'react'
@@ -11,7 +11,7 @@ import {styles} from './common'
 
 
 export function MyWallet() {
-  const {walletInfo: {isWalletCreated}, createdWallet} = useAccount()
+  const {walletInfo: {isWalletCreated}, updateWallet} = useAccount()
   const [isLoading, setLoading] = useState(true)
   const [walletInfoState, setWalletInfo] = useState(null)
   const [adminBalance, setAdminBalance] = useState(null)
@@ -22,7 +22,7 @@ export function MyWallet() {
     async function fetchWalletInfo() {
       const walletInfoResponse = await cryptoService.getWalletInfo()
       setWalletInfo(walletInfoResponse)
-      createdWallet(walletInfoResponse)
+      updateWallet(walletInfoResponse)
       const {balance} = await cryptoService.getAdminBalance()
       setAdminBalance(balance)
       setLoading(false)
@@ -30,6 +30,11 @@ export function MyWallet() {
     
     fetchWalletInfo()
   }, [])
+  
+  const depositAdminWallet = async () => {
+    const {success, balance} = await cryptoService.depositAdminWallet()
+    success && setAdminBalance(balance)
+  }
   
   if (isLoading) {
     return (
@@ -40,7 +45,7 @@ export function MyWallet() {
   }
   
   if (!isWalletCreated) {
-    return <div style={styles}>
+    return <div style={ styles }>
       <h4>You have to link your bank account on the link account page</h4>
       <Link href variant='body2' to={ PATH_DASHBOARD.linkBankAccount } component={ RouterLink }>
         { 'Link bank account' }
@@ -50,10 +55,23 @@ export function MyWallet() {
   
   const {walletName, walletAddress, balance} = walletInfoState
   
-  return <div style={styles}>
+  return <div style={ styles }>
     <h4>Available BTC to buy</h4>
     <h3>{ adminBalance }</h3>
-    <Divider />
+    
+    <span>Hack: deposit admin wallet from mining wallet by 40 BTC</span>
+    
+    <Button
+      type='button'
+      variant='outlined'
+      size={ 'small' }
+      sx={ {mt: 3, mb: 2} }
+      onClick={ depositAdminWallet }
+    >
+      Deposit Admin Wallet
+    </Button>
+    
+    <hr style={ {width: '100%'} } />
     
     <div className={ 'wallet-ino' }>
       <div>BTC wallet <b>name</b>: <span>{ walletName }</span></div>

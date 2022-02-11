@@ -24,7 +24,7 @@ export default function SignIn() {
     const email = data.get('email')
     const password = data.get('password')
     if (!email || !password) {
-      enqueueSnackbar('Fill all fields, please', {variant: 'error'})
+      enqueueSnackbar('Fill all required fields, please', {variant: 'error'})
       return
     }
     const {success, message} = await signIn(data.get('email'), data.get('password'))

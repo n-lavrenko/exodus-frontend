@@ -7,7 +7,7 @@ const ActionTypes = {
   Initial: 'INITIALIZE',
   LinkPlaid: 'LINK_PLAID',
   UnlinkPlaid: 'UNLINK_PLAID',
-  WalletCreated: 'WALLET_CREATED'
+  WalletUpdated: 'WALLET_UPDATED'
 }
 
 const initialState = {
@@ -27,21 +27,21 @@ const AccountReducer = (state, action) => {
       return {
         plaidLink: action.payload.plaidLink,
         isPlaidLinked: action.payload.isPlaidLinked,
-        walletInfo: action.payload.walletInfo,
+        walletInfo: action.payload.walletInfo
       }
     case ActionTypes.LinkPlaid:
       return {
         ...state,
         plaidLink: action.payload.plaidLink,
-        isPlaidLinked: true,
+        isPlaidLinked: true
       }
     case ActionTypes.UnlinkPlaid:
       return {
         ...state,
         plaidLink: null,
-        isPlaidLinked: false,
+        isPlaidLinked: false
       }
-    case ActionTypes.WalletCreated:
+    case ActionTypes.WalletUpdated:
       return {
         ...state,
         walletInfo: action.payload.walletInfo
@@ -62,7 +62,7 @@ function AccountProvider({children}) {
       try {
         const linkedResponse = await paidService.checkIsUserLinked()
         const {isLinked, link} = linkedResponse
-  
+        
         const walletCreatedResponse = await cryptoService.getWalletInfo()
         
         dispatch({
@@ -86,7 +86,7 @@ function AccountProvider({children}) {
     dispatch({
       type: ActionTypes.LinkPlaid,
       payload: {
-        plaidLink: data,
+        plaidLink: data
       }
     })
   }
@@ -95,9 +95,9 @@ function AccountProvider({children}) {
     dispatch({type: ActionTypes.UnlinkPlaid})
   }
   
-  const createdWallet = data => {
+  const updateWallet = data => {
     dispatch({
-      type: ActionTypes.WalletCreated,
+      type: ActionTypes.WalletUpdated,
       payload: {
         walletInfo: data
       }
@@ -110,7 +110,7 @@ function AccountProvider({children}) {
         ...state,
         linkPlaid,
         unlinkPlaid,
-        createdWallet
+        updateWallet
       } }
     >
       { children }
