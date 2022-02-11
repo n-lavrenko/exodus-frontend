@@ -45,14 +45,15 @@ export function BuyBTC() {
     }
     try {
       const {success, balance} = await cryptoService.depositBTCWallet(data.get('amount'))
-      updateWallet({...walletInfo, balance})
-      
-      const {balance: adminBalance} = await cryptoService.getAdminBalance()
-      setAdminBalance(adminBalance)
+      success && updateWallet({...walletInfo, balance})
       
       if (!success) {
         return enqueueSnackbar('Transaction was declined', {variant: 'error'})
       }
+      
+      const {balance: adminBalance} = await cryptoService.getAdminBalance()
+      setAdminBalance(adminBalance)
+      
       
       enqueueSnackbar(`Deposit ${ amount } BTC: success`, {
         variant: 'success',
