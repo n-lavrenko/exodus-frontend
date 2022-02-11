@@ -17,5 +17,5 @@ export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   linkBankAccount: path(ROOTS_DASHBOARD, '/link-bank-account'),
   buyBTC: path(ROOTS_DASHBOARD, '/buy-btc'),
-  // myWallet: path(ROOTS_DASHBOARD, '/wallet')
+  myWallet: path(ROOTS_DASHBOARD, '/wallet')
 }

@@ -1,5 +1,3 @@
-import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos'
-import {LoadingButton} from '@mui/lab'
 import {CircularProgress} from '@mui/material'
 import Divider from '@mui/material/Divider'
 import Link from '@mui/material/Link'
@@ -12,20 +10,19 @@ import {cryptoService} from '../../services/crypto.service'
 import {styles} from './common'
 
 
-const fullPageStyles = Object.assign({}, styles, {minHeight: '70vh'})
-
-export function BuyCrypto() {
-  const {isPlaidLinked} = useAccount()
+export function MyWallet() {
+  const {walletInfo: {isWalletCreated}, createdWallet} = useAccount()
   const [isLoading, setLoading] = useState(true)
-  const [walletInfo, setWalletInfo] = useState(null)
+  const [walletInfoState, setWalletInfo] = useState(null)
   const [adminBalance, setAdminBalance] = useState(null)
   
   useEffect(() => {
     setLoading(true)
     
     async function fetchWalletInfo() {
-      const walletInfo = await cryptoService.getWalletInfo()
-      setWalletInfo(walletInfo)
+      const walletInfoResponse = await cryptoService.getWalletInfo()
+      setWalletInfo(walletInfoResponse)
+      createdWallet(walletInfoResponse)
       const {balance} = await cryptoService.getAdminBalance()
       setAdminBalance(balance)
       setLoading(false)
@@ -34,22 +31,15 @@ export function BuyCrypto() {
     fetchWalletInfo()
   }, [])
   
-  const transferBTC = async () => {
-    setLoading(true)
-    // const isSuccess = await paidService.unlinkPlaid()
-    // console.log(isSuccess)
-    setLoading(false)
-  }
-  
   if (isLoading) {
     return (
-      <div style={ fullPageStyles }>
+      <div style={ styles }>
         <CircularProgress size={ 50 } />
       </div>
     )
   }
   
-  if (!isPlaidLinked) {
+  if (!isWalletCreated) {
     return <div style={styles}>
       <h4>You have to link your bank account on the link account page</h4>
       <Link href variant='body2' to={ PATH_DASHBOARD.linkBankAccount } component={ RouterLink }>
@@ -58,27 +48,17 @@ export function BuyCrypto() {
     </div>
   }
   
-  const {walletName, walletAddress, balance} = walletInfo
+  const {walletName, walletAddress, balance} = walletInfoState
   
-  return <div style={fullPageStyles}>
+  return <div style={styles}>
+    <h4>Available BTC to buy</h4>
+    <h3>{ adminBalance }</h3>
+    <Divider />
+    
     <div className={ 'wallet-ino' }>
       <div>BTC wallet <b>name</b>: <span>{ walletName }</span></div>
       <div>BTC wallet <b>address</b>: <span>{ walletAddress }</span></div>
       <div>BTC wallet <b>balance</b>: <span>{ balance }</span></div>
-      <Divider />
-      <div>Available BTC <b>to buy</b>: { adminBalance }</div>
     </div>
-    
-    
-    <LoadingButton
-      variant='outlined'
-      size='large'
-      loading={ isLoading }
-      endIcon={ <ArrowForwardIosIcon /> }
-      loadingPosition='end'
-      onClick={ transferBTC }
-    >
-      Transfer BTC
-    </LoadingButton>
   </div>
 }

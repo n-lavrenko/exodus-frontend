@@ -1,4 +1,4 @@
-// import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
+import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet'
 import AddLinkIcon from '@mui/icons-material/AddLink'
 import CurrencyExchangeIcon from '@mui/icons-material/CurrencyExchange'
 import ListItemButton from '@mui/material/ListItemButton'
@@ -23,12 +23,12 @@ export const MenuItems = (
       </ListItemIcon>
       <ListItemText primary='Buy BTC' />
     </ListItemButton>
-    {/*<ListItemButton component={ Link } to={ PATH_DASHBOARD.myWallet }>
+    <ListItemButton component={ Link } to={ PATH_DASHBOARD.myWallet }>
       <ListItemIcon>
         <AccountBalanceWalletIcon />
       </ListItemIcon>
       <ListItemText primary='My Wallet' />
-    </ListItemButton>*/}
+    </ListItemButton>
   </React.Fragment>
 )
 

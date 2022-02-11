@@ -5,7 +5,7 @@ import GuestGuard from '../guards/GuestGuard'
 import AuthLayout from '../pages/auth/AuthLayout'
 import SignIn from '../pages/auth/SignIn'
 import SignUp from '../pages/auth/SignUp'
-import {BuyCrypto} from '../pages/dashboard/BuyCrypto'
+import {MyWallet} from '../pages/dashboard/MyWallet'
 import DashboardLayout from '../pages/dashboard/DashboardLayout'
 import {LinkAccount} from '../pages/dashboard/LinkAccount'
 import {PATH_AUTH, PATH_DASHBOARD} from './paths'
@@ -37,7 +37,7 @@ export function AppRouter() {
       ),
       children: [
         { path: PATH_DASHBOARD.linkBankAccount, element: <LinkAccount /> },
-        { path: PATH_DASHBOARD.buyBTC, element: <BuyCrypto /> },
+        { path: PATH_DASHBOARD.myWallet, element: <MyWallet /> },
       ],
     },
     {
