@@ -6,15 +6,8 @@ import {PlaidLink} from 'react-plaid-link'
 import useAccount from '../../hooks/useAccount'
 import {cryptoService} from '../../services/crypto.service'
 import {paidService} from '../../services/plaid.service'
+import {styles} from './common'
 
-
-const styles = {
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  minHeight: 208
-}
 
 export function LinkAccount() {
   const {unlinkPlaid, linkPlaid, isPlaidLinked, plaidLink} = useAccount()
@@ -47,17 +40,17 @@ export function LinkAccount() {
   }
   
   const plaidToken = isPlaidLinked ? <div>
-    <div className={'link-info'}>
+    <div className={ 'link-info' }>
       <code>Item: { plaidLink.itemId }</code>
     </div>
-    <div className={'link-info'}>
+    <div className={ 'link-info' }>
       <code>AccessToken: { plaidLink.accessToken }</code>
     </div>
   </div> : <></>
   
   if (isPlaidLinked) {
     return <div style={ styles }>
-      <h4 style={{marginBottom: 15}}>Your account is linked to Bank Account</h4>
+      <h4 style={ {marginBottom: 15} }>Your account is linked to Bank Account</h4>
       { plaidToken }
       <LoadingButton
         variant='outlined'

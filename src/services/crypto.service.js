@@ -11,6 +11,27 @@ const createWallet = async () => {
   }
 }
 
+const getWalletInfo = async () => {
+  try {
+    const response = await axios.get(endpoints.walletInfo)
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+const getAdminBalance = async () => {
+  try {
+    const response = await axios.get(endpoints.adminBalance)
+    const {balance, success} = response.data
+    return {balance, success}
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+
 export const cryptoService = {
   createWallet,
+  getWalletInfo,
+  getAdminBalance
 }

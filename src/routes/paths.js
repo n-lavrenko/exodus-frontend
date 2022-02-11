@@ -16,6 +16,6 @@ export const PATH_AUTH = {
 export const PATH_DASHBOARD = {
   root: ROOTS_DASHBOARD,
   linkBankAccount: path(ROOTS_DASHBOARD, '/link-bank-account'),
-  buyCrypto: path(ROOTS_DASHBOARD, '/buy-crypto'),
-  myWallet: path(ROOTS_DASHBOARD, '/wallet')
+  buyBTC: path(ROOTS_DASHBOARD, '/buy-btc'),
+  // myWallet: path(ROOTS_DASHBOARD, '/wallet')
 }

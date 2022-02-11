@@ -51,3 +51,10 @@
 .white {
     color: white;
 }
+
+.wallet-ino div {
+    margin: 10px 0
+}
+.wallet-ino span {
+    font-family: monospace;
+}

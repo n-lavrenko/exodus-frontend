@@ -19,7 +19,7 @@ import {Outlet} from 'react-router-dom'
 import {AccountInfo} from '../../components/AccountInfo'
 import {Copyright} from '../../components/Copyright'
 import useAuth from '../../hooks/useAuth'
-import {mainListItems} from './listItems'
+import {MenuItems} from '../../components/MenuItems'
 
 
 const drawerWidth = 240
@@ -129,7 +129,7 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component='nav'>
-            { mainListItems }
+            { MenuItems }
           </List>
         </Drawer>
         <Box
@@ -153,7 +153,7 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: 240
+                    minHeight: 280
                   } }
                 >
                   <Outlet />
@@ -165,7 +165,7 @@ function DashboardContent() {
                     p: 2,
                     display: 'flex',
                     flexDirection: 'column',
-                    minHeight: 240
+                    minHeight: 280
                   } }
                 >
                   <AccountInfo />
