@@ -17,7 +17,6 @@ export function BuyBTC() {
   const {isPlaidLinked, updateWallet, walletInfo} = useAccount()
   const {enqueueSnackbar, closeSnackbar} = useSnackbar()
   const [isLoading, setLoading] = useState(true)
-  const [adminBalance, setAdminBalance] = useState(null)
   
   useEffect(() => {
     setLoading(true)
@@ -26,8 +25,6 @@ export function BuyBTC() {
       const walletInfoResponse = await cryptoService.getWalletInfo()
       updateWallet(walletInfoResponse)
       
-      const {balance} = await cryptoService.getAdminBalance()
-      setAdminBalance(balance)
       setLoading(false)
     }
     
@@ -50,10 +47,6 @@ export function BuyBTC() {
       if (!success) {
         return enqueueSnackbar('Transaction was declined', {variant: 'error'})
       }
-      
-      const {balance: adminBalance} = await cryptoService.getAdminBalance()
-      setAdminBalance(adminBalance)
-      
       
       enqueueSnackbar(`Deposit ${ amount } BTC: success`, {
         variant: 'success',
@@ -91,18 +84,13 @@ export function BuyBTC() {
   }
   
   return <div style={ styles }>
-    <h4>Available BTC to buy</h4>
-    <h3>{ adminBalance }</h3>
-    { adminBalance < 1 && <p>Note hack: you could deposit Available BTC on the { ' ' }
-      <Link href to={ PATH_DASHBOARD.myWallet } component={ RouterLink }>
-        { 'My wallet page' }
-      </Link></p> }
     
     <Box component='form' onSubmit={ handleSubmit } noValidate sx={ {mt: 1} }>
       <TextField
         margin='normal'
         required
         fullWidth
+        autoComplete={'off'}
         type='number'
         min='0.00001'
         step='any'

@@ -10,7 +10,7 @@ import {styles} from './common'
 
 
 export function LinkAccount() {
-  const {unlinkPlaid, linkPlaid, isPlaidLinked, plaidLink} = useAccount()
+  const {unlinkPlaid, linkPlaid, isPlaidLinked, plaidLink, updateWallet} = useAccount()
   const [isLoading, setLoading] = useState(false)
   const [linkToken, setLinkToken] = useState(null)
   
@@ -35,6 +35,7 @@ export function LinkAccount() {
       delete response.success
       linkPlaid(response)
       const result = await cryptoService.createWallet()
+      updateWallet(result)
       console.log(result)
     }
   }

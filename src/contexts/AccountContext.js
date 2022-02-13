@@ -4,7 +4,7 @@ import {paidService} from '../services/plaid.service'
 
 
 const ActionTypes = {
-  Initial: 'INITIALIZE',
+  Initial: 'INITIALIZE_ACCOUNT',
   LinkPlaid: 'LINK_PLAID',
   UnlinkPlaid: 'UNLINK_PLAID',
   WalletUpdated: 'WALLET_UPDATED'
@@ -64,18 +64,30 @@ function AccountProvider({children}) {
         const {isLinked, link} = linkedResponse
         
         const walletCreatedResponse = await cryptoService.getWalletInfo()
-        
-        dispatch({
-          type: ActionTypes.Initial,
-          payload: {
-            plaidLink: link,
-            isPlaidLinked: isLinked,
-            walletInfo: walletCreatedResponse
-          }
-        })
+        const {success} = walletCreatedResponse
+  
+        if (success) {
+          dispatch({
+            type: ActionTypes.Initial,
+            payload: {
+              plaidLink: link,
+              isPlaidLinked: isLinked,
+              walletInfo: walletCreatedResponse
+            }
+          })
+        }
+        else {
+          dispatch({
+            type: ActionTypes.Initial,
+            payload: initialState
+          })
+        }
       } catch (err) {
         console.error(err)
-        dispatch({type: ActionTypes.UnlinkPlaid})
+        dispatch({
+          type: ActionTypes.Initial,
+          payload: initialState
+        })
       }
     }
     
@@ -99,7 +111,7 @@ function AccountProvider({children}) {
     dispatch({
       type: ActionTypes.WalletUpdated,
       payload: {
-        walletInfo: data
+        walletInfo: data || initialState
       }
     })
   }

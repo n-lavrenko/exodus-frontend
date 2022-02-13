@@ -15,6 +15,7 @@ export const endpoints = {
   exchangePublicToken: finalizeEndpoint(PLAID, 'exchange-public-token'),
   unlinkPlaid: finalizeEndpoint(PLAID, 'unlink-plaid'),
   checkIsUserLinked: finalizeEndpoint(PLAID, 'is-linked'),
+  plaidAccounts: finalizeEndpoint(PLAID, 'accounts'),
   
   createWallet: finalizeEndpoint(CRYPTO, 'create-wallet'),
   walletInfo: finalizeEndpoint(CRYPTO, 'wallet-info'),

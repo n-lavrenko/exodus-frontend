@@ -129,7 +129,7 @@ function DashboardContent() {
           </Toolbar>
           <Divider />
           <List component='nav'>
-            { MenuItems }
+            <MenuItems />
           </List>
         </Drawer>
         <Box

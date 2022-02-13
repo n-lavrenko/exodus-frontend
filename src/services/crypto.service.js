@@ -20,16 +20,6 @@ const getWalletInfo = async () => {
   }
 }
 
-const getAdminBalance = async () => {
-  try {
-    const response = await axios.get(endpoints.adminBalance)
-    const {balance, success} = response.data
-    return {balance, success}
-  } catch (e) {
-    console.error(e)
-  }
-}
-
 const depositBTCWallet = async (amount) => {
   try {
     const response = await axios.post(endpoints.depositBTCWallet, {amount})
@@ -54,7 +44,6 @@ const depositAdminWallet = async (amount) => {
 export const cryptoService = {
   createWallet,
   getWalletInfo,
-  getAdminBalance,
   depositBTCWallet,
   depositAdminWallet
 }

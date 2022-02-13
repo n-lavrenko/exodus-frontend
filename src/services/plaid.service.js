@@ -40,9 +40,19 @@ const checkIsUserLinked = async () => {
   }
 }
 
+const getPlaidAccounts = async () => {
+  try {
+    const response = await axios.get(endpoints.plaidAccounts)
+    return response.data
+  } catch (e) {
+    console.error(e)
+  }
+}
+
 export const paidService = {
   createLinkToken,
   exchangePublicToken,
   unlinkPlaid,
-  checkIsUserLinked
+  checkIsUserLinked,
+  getPlaidAccounts
 }

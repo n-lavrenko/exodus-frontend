@@ -24,7 +24,7 @@ export function AccountInfo() {
         <div className={'link-account-status no'}><WarningAmberOutlinedIcon/></div>
       }
       {isWalletCreated &&
-        <div>BTC balance: {balance}</div>}
+        <div style={{marginTop: 5}}>BTC balance: {balance}</div>}
     </div>
   )
 }
