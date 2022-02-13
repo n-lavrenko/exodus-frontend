@@ -31,11 +31,13 @@ export function BuyBTC() {
     
     async function fetchWalletInfo() {
       try {
-        const walletInfoResponse = await cryptoService.getWalletInfo()
-        updateWallet(walletInfoResponse)
-        
         const {price} = await cryptoService.getBTCPrice()
         setBTCPrice(price)
+        
+        if (!isPlaidLinked) return setLoading(false)
+        
+        const walletInfoResponse = await cryptoService.getWalletInfo()
+        updateWallet(walletInfoResponse)
         
         const accounts = await plaidService.getPlaidAccounts()
         setPlaidAccounts(accounts)
@@ -161,6 +163,7 @@ export function BuyBTC() {
           error={!!accountError}
           value={selectedAccount}
           label="Account"
+          autoFocus
           onChange={ onAccountSelected }
         >
           {plaidAccounts.map(a => <MenuItem key={a.account_id} value={a.account_id}>
@@ -185,7 +188,6 @@ export function BuyBTC() {
         id='amountBTC'
         label='Amount of BTC'
         name='amountBTC'
-        autoFocus
       />
       </FormControl>
       
