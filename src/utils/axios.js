@@ -3,7 +3,7 @@ import axios from 'axios'
 
 const isProd = window.location.origin.includes('heroku')
 const accessToken = localStorage.getItem('accessToken')
-const baseURL = isProd ? 'https://exodus-backend.herokuapp.com' : 'http://localhost:1080'
+const baseURL = isProd ? 'http://159.223.30.179' : 'http://localhost:1080'
 
 const axiosInstance = axios.create({baseURL})
 
