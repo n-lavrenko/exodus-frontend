@@ -20,11 +20,11 @@ const getWalletInfo = async () => {
   }
 }
 
-const depositBTCWallet = async (amount) => {
+const depositBTCWallet = async (amountBTC, accountId) => {
   try {
-    const response = await axios.post(endpoints.depositBTCWallet, {amount})
-    const {balance, success} = response.data
-    return {balance, success}
+    const response = await axios.post(endpoints.depositBTCWallet, {amountBTC, accountId})
+    const {balance, success, message} = response.data
+    return {balance, success, message}
   } catch (e) {
     throw e?.error?.message || e
   }

@@ -33,9 +33,7 @@ export function BuyBTC() {
       try {
         const {price} = await cryptoService.getBTCPrice()
         setBTCPrice(price)
-        
-        if (!isPlaidLinked) return setLoading(false)
-        
+  
         const walletInfoResponse = await cryptoService.getWalletInfo()
         updateWallet(walletInfoResponse)
         
@@ -54,18 +52,16 @@ export function BuyBTC() {
   // here should be used a Formik validation
   const handleSubmit = async (event) => {
     event.preventDefault()
-    const data = new FormData(event.currentTarget)
-    const amountBTC = data.get('amountBTC')
     if (!amountBTC || !selectedAccount) {
       enqueueSnackbar('Fill all required fields, please', {variant: 'error'})
       return
     }
     try {
-      const {success, balance} = await cryptoService.depositBTCWallet(data.get('amountBTC'))
+      const {success, balance, message} = await cryptoService.depositBTCWallet(amountBTC, selectedAccount)
       success && updateWallet({...walletInfo, balance})
       
       if (!success) {
-        return enqueueSnackbar('Transaction was declined', {variant: 'error'})
+        throw message
       }
       
       enqueueSnackbar(`Deposit ${ amountBTC } BTC: success`, {
@@ -79,8 +75,8 @@ export function BuyBTC() {
         )
       })
     } catch (error) {
-      let message = error
-      if (typeof error !== 'string') message = 'Transaction was declined'
+      let message = error?.message || error
+      if (typeof message !== 'string') message = 'Transaction was declined'
       enqueueSnackbar(message, {variant: 'error'})
     }
   }

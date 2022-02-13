@@ -43,7 +43,7 @@ const checkIsUserLinked = async () => {
 const getPlaidAccounts = async () => {
   try {
     const response = await axios.get(endpoints.plaidAccounts)
-    return response.data
+    return response.data.accounts
   } catch (e) {
     console.error(e)
   }
