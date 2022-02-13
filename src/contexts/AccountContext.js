@@ -1,6 +1,6 @@
 import {createContext, useEffect, useReducer} from 'react'
 import {cryptoService} from '../services/crypto.service'
-import {paidService} from '../services/plaid.service'
+import {plaidService} from '../services/plaid.service'
 
 
 const ActionTypes = {
@@ -60,7 +60,7 @@ function AccountProvider({children}) {
   useEffect(() => {
     const initialize = async () => {
       try {
-        const linkedResponse = await paidService.checkIsUserLinked()
+        const linkedResponse = await plaidService.checkIsUserLinked()
         const {isLinked, link} = linkedResponse
         
         const walletCreatedResponse = await cryptoService.getWalletInfo()

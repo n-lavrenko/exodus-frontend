@@ -5,7 +5,7 @@ import {useEffect, useState} from 'react'
 import {PlaidLink} from 'react-plaid-link'
 import useAccount from '../../hooks/useAccount'
 import {cryptoService} from '../../services/crypto.service'
-import {paidService} from '../../services/plaid.service'
+import {plaidService} from '../../services/plaid.service'
 import {styles} from './common'
 
 
@@ -15,12 +15,12 @@ export function LinkAccount() {
   const [linkToken, setLinkToken] = useState(null)
   
   useEffect(() => {
-    paidService.createLinkToken((token) => setLinkToken(token))
+    plaidService.createLinkToken((token) => setLinkToken(token))
   }, [])
   
   const unlinkPlaidFn = async () => {
     setLoading(true)
-    const isSuccess = await paidService.unlinkPlaid()
+    const isSuccess = await plaidService.unlinkPlaid()
     setLoading(false)
     if (isSuccess) {
       unlinkPlaid()
@@ -29,7 +29,7 @@ export function LinkAccount() {
   
   const onSuccess = async (publicToken, metadata) => {
     console.log(publicToken, metadata)
-    const response = await paidService.exchangePublicToken(publicToken)
+    const response = await plaidService.exchangePublicToken(publicToken)
     console.log(response)
     if (response.success) {
       delete response.success

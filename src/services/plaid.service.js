@@ -49,7 +49,7 @@ const getPlaidAccounts = async () => {
   }
 }
 
-export const paidService = {
+export const plaidService = {
   createLinkToken,
   exchangePublicToken,
   unlinkPlaid,

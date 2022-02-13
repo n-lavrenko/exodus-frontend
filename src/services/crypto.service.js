@@ -39,11 +39,20 @@ const depositAdminWallet = async (amount) => {
     throw e?.error?.message || e
   }
 }
+const getBTCPrice = async () => {
+  try {
+    const response = await axios.get(endpoints.getBTCPrice)
+    return {success: true, price: response.data.price}
+  } catch (e) {
+    throw e?.error?.message || e
+  }
+}
 
 
 export const cryptoService = {
   createWallet,
   getWalletInfo,
   depositBTCWallet,
-  depositAdminWallet
+  depositAdminWallet,
+  getBTCPrice
 }
